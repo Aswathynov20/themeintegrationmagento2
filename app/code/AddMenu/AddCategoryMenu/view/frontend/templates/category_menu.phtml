@@ -1,0 +1,13 @@
+<?php
+$categoryMenu = $block->getCategoryMenu();
+?>
+
+<ul>
+    <?php foreach ($categoryMenu as $category): ?>
+        <li>
+            <a href="<?= $category->getUrl(); ?>">
+                <?= $category->getName(); ?>
+            </a>
+        </li>
+    <?php endforeach; ?>
+</ul>
