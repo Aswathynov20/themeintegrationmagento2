@@ -348,9 +348,13 @@ return [
         'Magento_WishlistSampleData' => 1,
         'AddMenu_AddCategoryMenu' => 1,
         'BannerSlider_Slider' => 1,
+        'Menshoes_ProductShoes' => 1,
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
         'Temando_ShippingRemover' => 1,
+        'Theme_Grid' => 1,
+        'TopBrands_BrandsCollection' => 1,
+        'TopBrands_BrandsList' => 1,
         'TopCategory_SliderCategory' => 1
     ]
 ];

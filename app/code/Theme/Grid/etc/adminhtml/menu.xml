@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+    	<add id="Theme_Grid::gridmanager" title="Theme" module="Theme_Grid" sortOrder="10" resource="Theme_Grid::gridmanager"/>
+    	<add id="Theme_Grid::create" title="Grid Manager" module="Theme_Grid" sortOrder="20" parent="Theme_Grid::gridmanager" action="thecoachsmb/grid/index" resource="Theme_Grid::create"/>
+    </menu>
+</config>
