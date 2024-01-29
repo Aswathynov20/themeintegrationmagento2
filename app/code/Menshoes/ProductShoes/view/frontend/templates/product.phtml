@@ -1,9 +1,16 @@
 <?php
 // Your template file
 use Menshoes\ProductShoes\Block\Product;
+use Magento\Framework\App\ObjectManager;
+$formKey = ObjectManager::getInstance()->get(\Magento\Framework\Data\Form\FormKey::class);
+// Create a product block object
 $blockObj = $block->getLayout()->createBlock(Product::class);
+
+// Get the product collection
 $productCollection = $blockObj->getProductCollection();
 ?>
+
+<!-- Your existing code for including necessary stylesheets and scripts -->
 
 <section class="products-section">
     <div class="page-main">
@@ -13,16 +20,20 @@ $productCollection = $blockObj->getProductCollection();
 
         <div class="products-grid grid">
             <ol class="product-items widget-product-grid owl-theme owl-carousel product-carousel menshoes">
-                <?php foreach ($productCollection as $product):
-                // var_dump($product);exit;
+                <?php foreach ($productCollection as $product): ?>
+                    <?php
+                    // Extract product details
                     $productId = $product->getId();
                     $productImage = $blockObj->getImageUrlFromPath($product->getImage());
-                    // var_dump($productImage);exit;
-                    $productName = $product->getName(); 
+                    $productName = $product->getName();
                     $productPrice = $product->getPrice();
+                    // var_dump($productPrice);
                     $specialPrice = $product->getSpecialPrice();
-                    $formKey = $blockObj->getFormKeyForWishlist();
-                    $addToCartUrl = $blockObj->getAddToCartUrl($product);                    ?>
+                    // var_dump($specialPrice);
+                    $addToCartUrl = $blockObj->getAddToCartUrl($product);
+                    $simpleProductArray = $blockObj->getSimpleProductArray($productId);
+                    ?>
+
                     <li class="product-item">
                         <div class="product-item-info">
                             <a href="<?= $product->getProductUrl() ?>" class="product-item-photo">
@@ -39,30 +50,62 @@ $productCollection = $blockObj->getProductCollection();
                                         <?= $productName ?>
                                     </a>
                                 </strong>
-                                <div class="price-box price-final_price">
+                                <div class="price-final_price">
+                                <?php if ($specialPrice): ?>
                                     <span class="old-price">
-                                        <span>₹<?= $productPrice ?></span>
-                                    </span>
-                                    <span class="normal-price">
                                         <span class="price-container price-final_price tax weee">
-                                            <span id="old-price-<?= $product->getId() ?>-widget-product-grid" data-price-amount="<?= $productPrice ?>" data-price-type="finalPrice" class="price-wrapper strike-through"><span class="price">₹<?= $specialPrice ?></span></span>
-                                        </span>
+                                        <span class="old-price"> <span>₹822.00</span> 
                                     </span>
+                                    <?php else: ?>
+                                        <span class="normal-price">
+                                            <span class="price-container price-final_price tax weee">
+                                                <span id="price-<?= $productId ?>" class="price-wrapper"><span class="price">₹<?= $productPrice ?></span></span>
+                                            </span>
+                                        </span>
+                                    <?php endif; ?>
                                 </div>
 
+                                <div class="swatch-opt-1562" data-role="swatch-option-1562" data-rendered="true">
+                                    <div class="swatch-attribute size" data-attribute-code="size" data-attribute-id="144">
+                                    </div>
+                                    <?php foreach ($simpleProductArray as $index => $simpleProduct): ?>
+                                        <?php
+                                        // Extract simple product details
+                                        $color = $simpleProduct['color'];
+                                        $entity_id = $simpleProduct['entity_id'];
+                                        $price = $simpleProduct['price'];
+                                        $buttonId = 'circular-swatch-' . $index;
+                                        ?>
+
+                                        <!-- Display circular color swatch -->
+                                        <button id="<?= $buttonId ?>" class="swatch-attribute color circular-swatch" style="background: <?= $color ?> no-repeat center; background-size: initial;"
+                                            data-attribute-code="color" data-attribute-id="<?= $simpleProduct['color'] ?>"
+                                            data-entity-id="<?= $entity_id ?>"
+                                            data-form-key="<?= $formKey->getFormKey() ?>"
+                                            data-price="<?= $price ?>">
+                                            <!-- Render your color options here based on $simpleProduct['options'] -->
+                                        </button>
+                                    <?php endforeach; ?>
+                                </div>
+
+                                <!-- Product actions -->
                                 <div class="product-item-inner">
-                                <div class="product-item-actions">
-            <div class="actions-primary">
-                <form data-role="tocart-form" data-product-sku="<?= $product->getSku() ?>" action="<?= $addToCartUrl ?>" method="post">
-                    <input type="hidden" name="product" value="<?= $productId ?>">
-                    <input type="hidden" name="uenc" value="<?= $blockObj->getUenc() ?>">
-                    <button type="submit" title="Add to Cart" class="action tocart primary">
-                        <span>Add to Cart</span>
-                    </button>
-                </form>
-            </div>
+                                    <div class="product-item-actions">
+                                        <div class="actions-primary">
+                                            <!-- Add to Cart form -->
+                                            <form data-role="tocart-form" data-product-sku="<?= $product->getSku() ?>" action="<?= $addToCartUrl ?>" method="post">
+                                                <input type="hidden" name="product" value="<?= $productId ?>">
+                                                <input type="hidden" name="uenc" value="<?= $blockObj->getUenc() ?>">
+                                                <input type="hidden" name="form_key" value="<?= $formKey->getFormKey() ?>"> 
+                                                <!-- Include the form_key -->
+                                                <button type="submit" title="Add to Cart" class="action tocart primary">
+                                                    <span>Add to Cart</span>
+                                                </button>
+                                            </form>
+                                        </div>
                                         <div class="actions-secondary" data-role="add-to-links">
-                                            <button id="wish-list-button-final" data-form-key="<?= $formKey ?>" data-product-id="<?= $productId ?>" class="action towishlist" data-action="add-to-wishlist" title="Add to Wish List">
+                                            <!-- Add to Wishlist button -->
+                                            <button id="wish-list-button-final" data-form-key="<?= $formKey->getFormKey() ?>" data-product-id="<?= $productId ?>" class="action towishlist" data-action="add-to-wishlist" title="Add to Wish List">
                                                 <span>Add to Wish List</span>
                                             </button>
                                         </div>
@@ -77,6 +120,8 @@ $productCollection = $blockObj->getProductCollection();
     </div>
 </section>
 
+
+<!-- Your existing code for including any additional scripts or closing HTML tags -->
 
 
 <!-- jQuery script for adding products to wishlist -->
@@ -100,9 +145,6 @@ $productCollection = $blockObj->getProductCollection();
                     }
                 }
             });
-
-           
         });
-    });  
-
-</script> 
+    });
+</script>

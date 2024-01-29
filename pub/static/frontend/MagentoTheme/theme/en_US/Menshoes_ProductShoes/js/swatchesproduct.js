@@ -1,0 +1,1 @@
+/home/aswathy/Documents/Training/magento2/app/code/Menshoes/ProductShoes/view/frontend/web/js/swatchesproduct.js

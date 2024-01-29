@@ -348,6 +348,7 @@ return [
         'Magento_WishlistSampleData' => 1,
         'AddMenu_AddCategoryMenu' => 1,
         'BannerSlider_Slider' => 1,
+        'Earphone_EarphoneCollection' => 1,
         'Menshoes_ProductShoes' => 1,
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,

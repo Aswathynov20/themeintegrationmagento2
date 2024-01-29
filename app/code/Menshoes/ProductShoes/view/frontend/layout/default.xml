@@ -4,6 +4,7 @@
         <!-- Include your JavaScript file -->
         <script src="Menshoes_ProductShoes::js/wishlist.js"/>
         <script src="Menshoes_ProductShoes::js/addtocart.js"/>
+        <script src="Menshoes_ProductShoes::js/swatchesproduct.js"/>
 
     </head>
 </page>

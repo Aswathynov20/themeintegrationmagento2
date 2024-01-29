@@ -1,0 +1,1 @@
+/home/aswathy/Documents/Training/magento2/app/code/Earphone/EarphoneCollection/view/frontend/web/js/addtocart.js

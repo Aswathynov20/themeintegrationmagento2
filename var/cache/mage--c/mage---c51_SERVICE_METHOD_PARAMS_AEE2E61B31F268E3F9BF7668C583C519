@@ -1,2 +1,2 @@
-a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1706116805;s:6:"expire";i:9999999999;s:4:"tags";s:38:"c51_REFLECTION,c51_REFLECTION,c51_MAGE";}
+a:4:{s:4:"hash";s:0:"";s:5:"mtime";i:1706506504;s:6:"expire";i:9999999999;s:4:"tags";s:38:"c51_REFLECTION,c51_REFLECTION,c51_MAGE";}
 [{"name":"prices","type":"\\Magento\\Catalog\\Api\\Data\\CostInterface[]","isDefaultValueAvailable":false,"defaultValue":null}]

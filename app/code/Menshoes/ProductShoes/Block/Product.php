@@ -8,6 +8,8 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Wishlist\Helper\Data as WishlistHelper;
 use Magento\Framework\Data\Form\FormKey;
 use Magento\Store\Model\StoreManagerInterface;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 
 class Product extends Template
 {
@@ -16,6 +18,8 @@ class Product extends Template
     protected $wishlistHelper;
     protected $formKey;
     protected $storeManager;
+    protected $configurableType;
+    protected $productRepository;
 
     public function __construct(
         Template\Context $context,
@@ -24,6 +28,8 @@ class Product extends Template
         WishlistHelper $wishlistHelper,
         FormKey $formKey,
         StoreManagerInterface $storeManager,
+        ConfigurableType $configurableType,
+        ProductRepositoryInterface $productRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
@@ -32,6 +38,8 @@ class Product extends Template
         $this->wishlistHelper = $wishlistHelper;
         $this->formKey = $formKey;
         $this->storeManager = $storeManager;
+        $this->configurableType = $configurableType;
+        $this->productRepository = $productRepository;
     }
 
     public function getProductCollection()
@@ -72,5 +80,33 @@ class Product extends Template
     {
         $key = $this->formKey->getFormKey();
         return $key;
+    }
+
+    public function getSimpleProductArray($productId)
+    {
+        // Step 2: Load Configurable Product
+        $configurableProduct = $this->productRepository->getById($productId);
+
+        // Step 3: Fetch Associated Simple Products
+        $associatedProducts = $configurableProduct->getTypeInstance()->getUsedProducts($configurableProduct);
+
+        $productDetails = [];
+
+        foreach ($associatedProducts as $product) {
+            $productId = $product->getId(); // Entity ID
+            $productSku = $product->getSku(); // SKU
+            $productPrice = $product->getPrice();
+            $productColor = $product->getAttributeText('color'); // Price
+
+            // Collect attributes into an array for each product
+            $productDetails[] = [
+                'entity_id' => $productId,
+                'sku' => $productSku,
+                'price' => $productPrice,
+                'color' => $productColor
+            ];
+        }
+    //    var_dump($productDetails);dd();
+        return $productDetails;
     }
 }

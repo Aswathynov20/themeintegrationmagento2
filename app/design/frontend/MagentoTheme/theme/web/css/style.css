@@ -1178,4 +1178,14 @@ select{
     width: 10px;
     display: block;
 }
-
+.circular-swatch {
+    border-radius: 50%;
+    width: 30px; /* Adjust the size as needed */
+    height: 30px; /* Adjust the size as needed */
+    border: 1px solid #ccc; /* Optional: Add border for better visibility */
+    margin: 5px; /* Optional: Add margin for spacing */
+    cursor: pointer;
+}
+.old-price span {
+    text-decoration: line-through;
+}
